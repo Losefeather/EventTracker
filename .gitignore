@@ -1,0 +1,24 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# 通用忽略
+.gradle/
+build/
+.idea/
+
+*.keystore
+*.jks
+
+# 测试相关
+test-results/
+coverage/
+
+# 系统临时文件
+*.swp
+*.swo

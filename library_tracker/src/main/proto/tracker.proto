@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+message DeviceInfo{
+  string deviceId = 1;
+
+}
+
+
+message EventInfo{
+  string eventName = 1;
+  string eventCategory = 2;
+  map<string, google.protobuf.Value> event_prop = 3;
+  int64 eventTime = 4;
+}
+
+//data class EventEntity(
+//    val eventName : String,
+//    val eventCategory: String,
+//    val eventProp : HashMap<String, Any>,
+//    val eventTime : Long = System.currentTimeMillis()
+//)
