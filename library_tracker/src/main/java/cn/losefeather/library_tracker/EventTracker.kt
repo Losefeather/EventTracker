@@ -6,6 +6,7 @@ import cn.losefeather.library_tracker.database.EventTrackerDataBase
 
 
 class EventTracker {
+
     private val eventTrackerActivityLifecycle by lazy {
         EventTrackerActivityLifecycle(this)
     }
@@ -41,6 +42,19 @@ class EventTracker {
     fun trackEvent() {
 
     }
+
+    fun trackViewEvent() {
+
+    }
+
+    fun trackClickEvent() {
+
+    }
+
+    fun trackBusinessEvent() {
+
+    }
+
 }
 
 

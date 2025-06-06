@@ -15,6 +15,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 protobuf = "0.9.4"
 roomKtx = "2.7.1"
+workMultiprocess = "2.10.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +56,7 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-java-util = { group = "com.google.protobuf", name = "protobuf-java-util", version = "3.25.3" }
 protoc-gen-grpc-java = { group = "io.grpc", name = "protoc-gen-grpc-java", version = "1.62.2" }
 protoc-gen-grpc-kotlin = { group = "io.grpc", name = "protoc-gen-grpc-kotlin", version = "1.4.1" }
+androidx-work-multiprocess = { group = "androidx.work", name = "work-multiprocess", version.ref = "workMultiprocess" }
 
 
 

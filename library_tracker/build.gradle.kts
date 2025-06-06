@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.work.multiprocess)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -100,6 +101,8 @@ dependencies {
 
 
     //Workmanager
-
+    // Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:2.10.1")
+    //implementation("androidx.work:work-multiprocess:2.10.1")
 
 }

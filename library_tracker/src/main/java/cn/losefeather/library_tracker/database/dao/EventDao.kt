@@ -9,12 +9,12 @@ import cn.losefeather.library_tracker.entity.EventInfo
 
 @Dao
 interface EventDao {
-    @Query("select * FROM ${TABLE_EVENT_INFO} ")
-    suspend fun query(eventInfo: EventInfo)
+    @Query("select * FROM $TABLE_EVENT_INFO WHERE event_upload_status == 0")
+    suspend fun queryNotUploadEvent(): List<EventInfo>
 
     @Insert
-    suspend fun insertAll(vararg eventInfo: EventInfo)
+    suspend fun insertAll(vararg eventInfos: EventInfo)
 
     @Delete(entity = EventInfo::class)
-    suspend fun delete(eventInfo: EventInfo)
+    suspend fun delete(vararg eventInfos: EventInfo)
 }

@@ -1,22 +1,70 @@
 syntax = "proto3";
 
-import "google/protobuf/struct.proto";
-message DeviceInfo{
-  string deviceId = 1;
+import "google/protobuf/struct.proto"; // 用于 map<string, Value> 类型
 
+// 对应 DeviceInfo.kt
+message DeviceInfo {
+  string device = 1;          // 对应 Build.DEVICE
+  string id = 2;              // 对应 Build.ID
+  string hardware = 3;        // 对应 Build.HARDWARE
+  string board = 4;           // 对应 Build.BOARD
+  string manufacturer = 5;    // 对应 Build.MANUFACTURER
+  string cpu_architecture = 6; // 对应 Build.SUPPORTED_ABIS.first()
+  string serial = 7;          // 对应 Build.SERIAL
+  string os_type = 8;         // 固定值 "Android"
+  string os_version = 9;      // 对应 Build.VERSION.RELEASE
+  int32 sdk_version = 10;     // 对应 Build.VERSION.SDK_INT
+  int32 screen_width = 11;    // 屏幕宽度（像素）
+  int32 screen_height = 12;   // 屏幕高度（像素）
+  int32 screen_density = 13;  // 屏幕密度（dpi）
 }
 
-
-message EventInfo{
-  string eventName = 1;
-  string eventCategory = 2;
-  map<string, google.protobuf.Value> event_prop = 3;
-  int64 eventTime = 4;
+// 对应 UserInfo.kt
+message UserInfo {
+  int32 uid = 1;              // 主键
+  string user_name = 2;       // 对应 @ColumnInfo(name = "user_name")
+  string user_id = 3;         // 对应 @ColumnInfo(name = "user_id")
 }
 
-//data class EventEntity(
-//    val eventName : String,
-//    val eventCategory: String,
-//    val eventProp : HashMap<String, Any>,
-//    val eventTime : Long = System.currentTimeMillis()
-//)
+// 对应 AppInfo.kt
+message AppInfo {
+  string pack_name = 1;       // 应用包名
+  string app_version = 2;     // 应用版本名
+  string app_version_code = 3;// 应用版本号
+}
+
+// 对应 EventInfo.kt（补充原有定义）
+message EventInfo {
+  int32 uid = 1;              // 主键
+  string event_name = 2;      // 对应 @ColumnInfo(name = "event_name")
+  string event_category = 3;  // 对应 @ColumnInfo(name = "event_category")
+  map<string, google.protobuf.Value> event_prop = 4; // 事件属性（HashMap 转换为 map）
+  int64 event_time = 5;       // 事件时间戳（Long 转换为 int64）
+  bool event_upload_status = 6; // 上传状态（Boolean 转换为 bool）
+}
+
+// 对应 NetworkInfo.kt（忽略方法，仅保留字段）
+message NetworkInfo {
+  string ip = 1;              // IP 地址
+  string mac = 2;             // MAC 地址
+}
+
+// 对应 EventContact.kt（常量转换为枚举）
+enum EventType {
+  EVENT_UNSPECIFIED = 0;
+  EVENT_ON_CLICK = 1;         // 对应 EVENT.EVENT_ON_CLICK
+  EVENT_ENTER_PAGE = 2;       // 对应 EVENT.EVENT_ENTER_PAGE
+  EVENT_QUIET_PAGE = 3;       // 对应 EVENT.EVENT_QUIET_PAGE
+}
+
+enum CategoryType {
+  CATEGORY_UNSPECIFIED = 0;
+  CATEGORY_UI = 1;            // 对应 CATEGORY.CATEGORY_UI
+  CATEGORY_BUSINESS = 2;      // 对应 CATEGORY.CATEGORY_BUSINESS
+}
+
+// 原有 Event 定义（保留结构，使用新生成的 message 类型）
+message Event {
+  DeviceInfo info = 1;        // 设备信息
+  repeated EventInfo ev = 2;  // 事件列表（repeated 对应 List）
+}

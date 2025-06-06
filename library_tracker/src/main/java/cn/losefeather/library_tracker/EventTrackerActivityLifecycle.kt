@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 
-class EventTrackerActivityLifecycle constructor(eventTracker: EventTracker) :
+class EventTrackerActivityLifecycle constructor(val eventTracker: EventTracker) :
     Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 
@@ -14,6 +14,7 @@ class EventTrackerActivityLifecycle constructor(eventTracker: EventTracker) :
     }
 
     override fun onActivityResumed(activity: Activity) {
+
     }
 
     override fun onActivityPaused(activity: Activity) {
