@@ -64,7 +64,18 @@ enum CategoryType {
 }
 
 // 原有 Event 定义（保留结构，使用新生成的 message 类型）
-message Event {
+message UploadEventReq {
   DeviceInfo info = 1;        // 设备信息
-  repeated EventInfo ev = 2;  // 事件列表（repeated 对应 List）
+  UserInfo userinfo = 2;
+  AppInfo appInfo = 3;
+  NetworkInfo networkInfo = 4;
+  repeated EventInfo ev = 5;  // 事件列表（repeated 对应 List）
+}
+
+message UploadEventRes{
+  bool  isSuccess = 1;
+}
+
+service EventTrackerService{
+  rpc  SendEvent(UploadEventReq) returns (UploadEventRes);
 }

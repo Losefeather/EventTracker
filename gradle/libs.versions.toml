@@ -16,12 +16,15 @@ material = "1.10.0"
 protobuf = "0.9.4"
 roomKtx = "2.7.1"
 workMultiprocess = "2.10.1"
+grpcAndroid = "1.64.2"
+workRuntimeKtx = "2.10.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-room-compiler2 = { module = "androidx.room:room-compiler", version.ref = "androidxRoomCompilerVersion" }
 androidx-room-room-runtime3 = { module = "androidx.room:room-runtime", version.ref = "androidxRoomRoomRuntime" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -40,7 +43,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
-#grpc-android = { module = "io.grpc:grpc-android", version.ref = "1.64.2" }
+grpc-android = { module = "io.grpc:grpc-android", version.ref = "grpcAndroid" }
 
 grpc-protobuf = { group = "io.grpc", name = "grpc-protobuf", version = "1.62.2" }
 grpc-protobuf-lite = { group = "io.grpc", name = "grpc-protobuf-lite", version = "1.64.2" }
