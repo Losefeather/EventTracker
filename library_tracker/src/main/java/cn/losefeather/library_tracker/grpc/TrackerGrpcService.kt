@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.cancel
+import uploadEventReq
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
@@ -95,9 +96,12 @@ class TrackerGrpcService constructor(private var uri: Uri, private val context: 
         }
     }
 
-    //  private val grpcRequestManager by lazy { GrpcRequestManager() }
+    private val grpcRequestManager by lazy { GrpcRequestManager() }
 
-
+    suspend fun uploadEvent() {
+        val request = uploadEventReq { }
+        trackerService.sendEvent(request)
+    }
     // 修改流式请求方法示例
 //    fun tallyScanAssBill(
 //        billNo: String,

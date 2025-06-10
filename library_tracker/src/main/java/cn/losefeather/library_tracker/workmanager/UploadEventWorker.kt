@@ -1,52 +1,29 @@
 package cn.losefeather.library_tracker.workmanager
 
 import android.content.Context
-import androidx.room.Room
 import androidx.work.WorkerParameters
 import androidx.work.multiprocess.RemoteCoroutineWorker
-import cn.losefeather.library_tracker.database.EventTrackerDataBase
-import cn.losefeather.library_tracker.entity.EventInfo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import cn.losefeather.library_tracker.database.TrackerDataBaseManager
+import kotlinx.coroutines.flow.first
 
 class UploadEventWorker(appContext: Context, workerParams: WorkerParameters) :
     RemoteCoroutineWorker(appContext, workerParams) {
 
-    private val dataBase: EventTrackerDataBase = Room.databaseBuilder(
-        appContext,
-        EventTrackerDataBase::class.java, "tracker_database"
-    ).build()
-
-
     override suspend fun doRemoteWork(): Result {
-        withContext(Dispatchers.IO) {
-            val eventList = queryNotUploadEvent()
-            if (eventList.isEmpty()) {
-                return@withContext Result.success()
-            } else {
-                withContext(Dispatchers.Default) {
-                    uploadEvents(eventList)
-                }
-                deleteNotUploadEvent(eventList)
-                return@withContext Result.success()
-            }
+        val eventList = TrackerDataBaseManager.getInstance().queryNotUploadEvent().first()
+        if (eventList.isEmpty()) {
+            return Result.success()
         }
-        // Indicate whether the work finished successfully with the Result
-        return Result.failure()
+
+        // 上传操作（假设是网络请求，仍在 IO 线程）
+        uploadEvents(eventList)
+        // 删除操作（IO 线程）
+        val number =
+            TrackerDataBaseManager.getInstance().deleteEvent(*eventList.toTypedArray()).first()
+        if (number == eventList.size) {
+            return Result.success()
+        } else {
+            return Result.retry()
+        }
     }
-
-    private suspend fun uploadEvents(list: List<EventInfo>) {
-
-    }
-
-
-    private suspend fun queryNotUploadEvent(): List<EventInfo> {
-        return dataBase.eventDao().queryNotUploadEvent()
-    }
-
-
-    private suspend fun deleteNotUploadEvent(list: List<EventInfo>) {
-        dataBase.eventDao().delete(*list.toTypedArray())
-    }
-
 }
