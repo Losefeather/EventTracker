@@ -1,6 +1,8 @@
 package cn.losefeather.library_tracker
 
 import android.app.Application
+import android.net.Uri
+import cn.losefeather.library_tracker.grpc.TrackerGrpcService
 
 class EventTrackerManager {
     private val eventTracker by lazy {
@@ -26,8 +28,13 @@ class EventTrackerManager {
     fun init(application: Application) {
         if (!isInit) {
             initEventTracker(application)
+            initGrpcService(application)
             isInit = true
         }
+    }
+
+    private fun initGrpcService(application: Application) {
+        TrackerGrpcService(Uri.parse(""), application)
     }
 
 

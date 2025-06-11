@@ -6,19 +6,25 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import cn.losefeather.library_tracker.database.DataBaseContact.TABLE.TABLE_EVENT_INFO
 import cn.losefeather.library_tracker.database.HashMapConverter
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_CATEGORY
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_NAME
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_PROP
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_TIME
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_UPLOAD_STATUS
 
 @Entity(tableName = TABLE_EVENT_INFO)
 data class EventInfo(
-    @PrimaryKey
-    val uid: Int,
-    @ColumnInfo(name = "event_name")
+    @PrimaryKey(autoGenerate = true)
+    private val uid: Int,
+    @ColumnInfo(name = EVENT_NAME)
     val eventName: String,
-    @ColumnInfo(name = "event_category")
+    @ColumnInfo(name = EVENT_CATEGORY)
     val eventCategory: String,
+    @ColumnInfo(name = EVENT_PROP)
     @TypeConverters(HashMapConverter::class)
     val eventProp: HashMap<String, Any>,
-    @ColumnInfo(name = "event_time")
+    @ColumnInfo(name = EVENT_TIME)
     val eventTime: Long = System.currentTimeMillis(),
-    @ColumnInfo(name = "event_upload_status")
+    @ColumnInfo(name = EVENT_UPLOAD_STATUS)
     var eventUploadStatus: Boolean = false
 )

@@ -4,9 +4,13 @@ import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
 import cn.losefeather.library_tracker.database.TrackerDataBaseManager
+import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_BUSINESS
+import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_UI
+import cn.losefeather.library_tracker.entity.EventInfo
 
 
 class EventTracker {
+    private var isInit = false
     private val eventTrackerActivityLifecycle by lazy {
         EventTrackerActivityLifecycle(this)
     }
@@ -14,9 +18,12 @@ class EventTracker {
     private val eventCache by lazy { EventCache() }
 
     fun init(application: Application) {
-        initDataBase(application)
-        registerActivityLifecycle(application)
-        register(application)
+        if (!isInit) {
+            initDataBase(application)
+            registerActivityLifecycle(application)
+            registerLowMemory(application)
+            isInit = true
+        }
     }
 
     private fun initDataBase(application: Application) {
@@ -31,7 +38,7 @@ class EventTracker {
     }
 
 
-    private fun register(application: Application) {
+    private fun registerLowMemory(application: Application) {
         application.registerComponentCallbacks(object : ComponentCallbacks2 {
             override fun onConfigurationChanged(newConfig: Configuration) {
             }
@@ -58,28 +65,34 @@ class EventTracker {
 
     }
 
-    fun trackViewEvent() {
 
+    fun trackUiEvent(eventName: String, eventProp: HashMap<String, Any> = hashMapOf()) {
+        val eventInfo = EventInfo(
+            uid = 1,
+            eventName = eventName,
+            eventCategory = CATEGORY_UI,
+            eventProp = eventProp,
+            eventUploadStatus = false
+        )
+        eventCache.addEvent(eventInfo)
     }
 
-    fun trackClickEvent() {
-
-    }
-
-    fun trackBusinessEvent() {
-
+    fun trackBusinessEvent(eventName: String, eventProp: HashMap<String, Any> = hashMapOf()) {
+        val eventInfo = EventInfo(
+            uid = 1,
+            eventName = eventName,
+            eventCategory = CATEGORY_BUSINESS,
+            eventProp = eventProp,
+            eventUploadStatus = false
+        )
+        eventCache.addEvent(eventInfo)
     }
 
     private fun saveCacheEventsToDataBase() {
         if (eventCache.getAllCacheEvent().isNotEmpty()) {
             TrackerDataBaseManager.getInstance().insertEvents(eventCache.getAllCacheEvent())
-            eventCache.removeEvent()
         }
     }
-
-
-
-
 }
 
 

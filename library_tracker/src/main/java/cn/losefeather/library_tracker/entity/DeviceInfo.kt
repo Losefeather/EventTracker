@@ -4,19 +4,19 @@ import android.content.res.Resources
 import android.os.Build
 
 data class DeviceInfo(
-    private val device: String = Build.DEVICE,
-    private val id: String = Build.ID,
-    private val hardware: String = Build.HARDWARE,
-    private val board: String = Build.BOARD,
-    private val manufacturer: String = Build.MANUFACTURER,
-    private val cpuArchitecture: String = Build.SUPPORTED_ABIS.first(),
-    private val serial: String = Build.SERIAL,
-    private val osType: String = "Android",
-    private val osVersion: String = Build.VERSION.RELEASE,
-    private val sdkVersion: Int = Build.VERSION.SDK_INT,
-    private val screenWidth: Int = Resources.getSystem().displayMetrics.widthPixels,
-    private val screenHeight: Int = Resources.getSystem().displayMetrics.heightPixels,
-    private val screenDensity: Int = Resources.getSystem().displayMetrics.densityDpi,
+     val device: String = Build.DEVICE,
+     val id: String = Build.ID,
+     val hardware: String = Build.HARDWARE,
+     val board: String = Build.BOARD,
+     val manufacturer: String = Build.MANUFACTURER,
+     val cpuArchitecture: String = Build.SUPPORTED_ABIS.first(),
+     val serial: String = Build.SERIAL,
+     val osType: String = "Android",
+     val osVersion: String = Build.VERSION.RELEASE,
+     val sdkVersion: Int = Build.VERSION.SDK_INT,
+     val screenWidth: Int = Resources.getSystem().displayMetrics.widthPixels,
+     val screenHeight: Int = Resources.getSystem().displayMetrics.heightPixels,
+     val screenDensity: Int = Resources.getSystem().displayMetrics.densityDpi,
 )
 
 
