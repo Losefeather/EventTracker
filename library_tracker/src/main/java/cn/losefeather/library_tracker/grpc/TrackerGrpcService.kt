@@ -2,9 +2,20 @@ package  cn.losefeather.library_tracker.grpc
 
 
 import EventTrackerServiceGrpcKt
+import Tracker
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import cn.losefeather.library_tracker.entity.AppInfo
+import cn.losefeather.library_tracker.entity.DeviceInfo
+import cn.losefeather.library_tracker.entity.EventInfo
+import cn.losefeather.library_tracker.entity.NetworkInfo
+import cn.losefeather.library_tracker.entity.UserInfo
+import cn.losefeather.library_tracker.entity.toGrpcAppInfo
+import cn.losefeather.library_tracker.entity.toGrpcDeviceInfo
+import cn.losefeather.library_tracker.entity.toGrpcEvent
+import cn.losefeather.library_tracker.entity.toGrpcNetworkInfo
+import cn.losefeather.library_tracker.entity.toGrpcUserInfo
 import io.grpc.ConnectivityState
 import io.grpc.android.AndroidChannelBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -98,24 +109,25 @@ class TrackerGrpcService constructor(private var uri: Uri, private val context: 
 
     private val grpcRequestManager by lazy { GrpcRequestManager() }
 
-    suspend fun uploadEvent() {
-        val request = uploadEventReq { }
-        trackerService.sendEvent(request)
+    suspend fun uploadEvent(
+        deviceInfo: DeviceInfo,
+        appInfo: AppInfo,
+        userInfo: UserInfo,
+        networkInfo: NetworkInfo,
+        list: List<EventInfo>
+    ): Tracker.UploadEventRes {
+        val request = uploadEventReq {
+            this.info = deviceInfo.toGrpcDeviceInfo()
+            this.appInfo = appInfo.toGrpcAppInfo()
+            this.userinfo = userInfo.toGrpcUserInfo()
+            this.networkInfo = networkInfo.toGrpcNetworkInfo(context)
+            this.ev.addAll(list.map { it.toGrpcEvent() })
+//
+//            // 使用 map 转换事件列表（更简洁）
+//            events.addAll(list.map { it.toGrpcEvent() })
+        }
+        return trackerService.sendEvent(request)
     }
-    // 修改流式请求方法示例
-//    fun tallyScanAssBill(
-//        billNo: String,
-//        assBillNo: String
-//    ): Flow<GrpcResult<Bill.TallyScanAssBillRes>> {
-//        return grpcRequestManager.executeFlow {
-//            val requests = listOf(tallyScanAssBillReq {
-//                this.billNo = billNo
-//                this.assBillNo = assBillNo
-//            }).asFlow()
-//            billService.tallyScanAssBill(requests = requests, headers = tokenHeaders())
-//        }
-//    }
-
 
     // 关闭通道
     override fun close() {

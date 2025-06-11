@@ -7,6 +7,7 @@ import cn.losefeather.library_tracker.database.TrackerDataBaseManager
 
 
 class EventTracker {
+    private var isInit = false
     private val eventTrackerActivityLifecycle by lazy {
         EventTrackerActivityLifecycle(this)
     }
@@ -14,9 +15,12 @@ class EventTracker {
     private val eventCache by lazy { EventCache() }
 
     fun init(application: Application) {
-        initDataBase(application)
-        registerActivityLifecycle(application)
-        register(application)
+        if (!isInit) {
+            initDataBase(application)
+            registerActivityLifecycle(application)
+            registerLowMemory(application)
+            isInit = true
+        }
     }
 
     private fun initDataBase(application: Application) {
@@ -31,7 +35,7 @@ class EventTracker {
     }
 
 
-    private fun register(application: Application) {
+    private fun registerLowMemory(application: Application) {
         application.registerComponentCallbacks(object : ComponentCallbacks2 {
             override fun onConfigurationChanged(newConfig: Configuration) {
             }
@@ -73,13 +77,8 @@ class EventTracker {
     private fun saveCacheEventsToDataBase() {
         if (eventCache.getAllCacheEvent().isNotEmpty()) {
             TrackerDataBaseManager.getInstance().insertEvents(eventCache.getAllCacheEvent())
-            eventCache.removeEvent()
         }
     }
-
-
-
-
 }
 
 
