@@ -1,0 +1,41 @@
+{
+  "registerJsonParams": {
+    "appId": "B10070100",
+    "notice": [
+      {
+        "menuId": "B10076808",
+        "key": "B10078806_notice"
+      }
+    ]
+  },
+  "isRegisterNotice": true,
+  "menuCode": "B10078806",
+  "saveTempCache": {
+    "value": {
+      "bankCardMobileView": "188*****692",
+      "protocolList": [
+        {
+          "protocolAddr": "https://mobres.95598pay.com/mobresource/webhtml5/protocol/protocol.html?protocolId\u003dc32a936f174f406c803229cc54d3e820",
+          "protocolCheckFlag": "1",
+          "protocolCode": "《快捷支付服务协议》",
+          "protocolPrompt": "同意",
+          "protocolTitle": ""
+        },
+        {
+          "protocolAddr": "https://mobres.95598pay.com/mobresource/webhtml5/protocol/protocol.html?protocolId\u003d96db207159f142ab89998c2caefff694",
+          "protocolCheckFlag": "1",
+          "protocolCode": "《中国工商银行授权承诺书》",
+          "protocolPrompt": "同意",
+          "protocolTitle": "中国工商银行授权承诺书"
+        }
+      ],
+      "bindCardId": "13117",
+      "bankCardType": "130001",
+      "from": "B10070100",
+      "bankName": "工商银行",
+      "page": "upgradeBankCard",
+      "bindScene": "21"
+    },
+    "key": "B10078806_cache"
+  }
+}

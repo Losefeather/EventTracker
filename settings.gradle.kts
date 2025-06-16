@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "EventTracker"
 include(":app")
 include(":library_tracker")
+include(":plugin_tracker")
