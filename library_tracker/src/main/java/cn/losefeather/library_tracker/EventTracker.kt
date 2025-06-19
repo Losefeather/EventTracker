@@ -3,6 +3,7 @@ package cn.losefeather.library_tracker
 import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
+import android.util.Log
 import cn.losefeather.library_tracker.database.TrackerDataBaseManager
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_BUSINESS
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_UI
@@ -14,6 +15,8 @@ class EventTracker {
     private val eventTrackerActivityLifecycle by lazy {
         EventTrackerActivityLifecycle(this)
     }
+
+    private val TAG = this::class.java.canonicalName
 
     private val eventCache by lazy { EventCache() }
 
@@ -74,6 +77,7 @@ class EventTracker {
             eventProp = eventProp,
             eventUploadStatus = false
         )
+        Log.e(TAG, "trackUiEvent: $eventInfo")
         eventCache.addEvent(eventInfo)
     }
 
