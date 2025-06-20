@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // id("cn.losefeather.tracker")
+
 }
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
@@ -43,8 +45,15 @@ android {
     buildFeatures {
         compose = true
     }
-}
 
+//    tracker{
+//        isTrackFragment.set(true)
+//    }
+}
+//tracker {
+//    isTrackFragment.set(false) // 显式关闭 Fragment 跟踪（默认值）
+//    excludePackages.set("")    // 显式设置不排除任何包（默认值）
+//}
 dependencies {
 
     implementation(libs.androidx.core.ktx)

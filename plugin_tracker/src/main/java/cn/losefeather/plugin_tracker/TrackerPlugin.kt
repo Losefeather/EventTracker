@@ -6,10 +6,16 @@ import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+import org.gradle.api.provider.Property // 导入 Gradle 的 Property 接口
 
 class TrackerPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         println("注册ui隐藏埋点插件")
+//        val trackerExtension = project.extensions.create("tracker", TrackerExtension::class.java)
+//        println("${trackerExtension.isTrackFragment}")
+
+        println("注册ui隐藏埋点插件2")
+
         // 获取Android组件扩展
         val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
 
@@ -21,7 +27,9 @@ class TrackerPlugin : Plugin<Project> {
             ) { params ->
                 // 可配置参数（例如排除某些包）
                 params.excludePackages.set("androidx,com.google")
-                params.isTrackFragment.set(true)
+                params.isTrackFragment1.set(true)
+                println("注册ui隐藏埋点插件3")
+
             }
             // 确保资源不被混淆
             variant.instrumentation.setAsmFramesComputationMode(
@@ -29,4 +37,11 @@ class TrackerPlugin : Plugin<Project> {
             )
         }
     }
+}
+
+
+// 插件扩展类（定义可配置参数）
+interface TrackerExtension {
+    val isTrackFragment: Property<Boolean>
+    val excludePackages: Property<String>
 }

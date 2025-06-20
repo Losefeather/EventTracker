@@ -18,7 +18,7 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
 
     override fun isInstrumentable(classData: ClassData): Boolean {
         val excludePackages = parameters.get().excludePackages.get()
-        isTrackFragment = parameters.get().isTrackFragment.get()
+        //isTrackFragment = parameters.get().isTrackFragment.get()
         return !classData.className.startsWithAny(
             excludePackages.split(",").filter { it.isNotBlank() })
     }

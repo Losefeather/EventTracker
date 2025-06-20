@@ -1,16 +1,14 @@
 package cn.losefeather.plugin_tracker
 
 import com.android.build.api.instrumentation.InstrumentationParameters
-import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
 
-abstract class TrackerParameters : InstrumentationParameters {
+interface TrackerParameters : InstrumentationParameters {
     // 可自定义插桩参数（如需要过滤的包名）
-    abstract val excludePackages: Property<String>
-    abstract val isTrackFragment: Property<Boolean>
+    @get:Input
+    val excludePackages: Property<String>
 
-
-    fun setDefaults(objects: ObjectFactory) {
-        excludePackages.convention("")
-    }
+    @get:Input
+    val isTrackFragment1: Property<Boolean>
 }

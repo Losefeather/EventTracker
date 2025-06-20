@@ -5,11 +5,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
-val MAVEN_GROUP_ID = "cn.losefeather.plugins"
-val MAVEN_ARTIFACT_ID = "tracker"
-val MAVEN_VERSION = "1.0.0"
-val MAVEN_NAME = "tracker"
-
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -25,11 +20,14 @@ gradlePlugin {
     plugins {
         create("tracker") {
             id = "cn.losefeather.tracker"
-            implementationClass = "cn.losefaether.plugin_tracker.TrackerPlugin"
+            implementationClass = "cn.losefeather.plugin_tracker.TrackerPlugin"
         }
     }
 }
-
+val MAVEN_GROUP_ID = "cn.losefeather.plugins"
+val MAVEN_ARTIFACT_ID = "tracker"
+val MAVEN_VERSION = "1.0.0"
+val MAVEN_NAME = "maven"
 publishing {
     publications {
         create<MavenPublication>(MAVEN_NAME) {
