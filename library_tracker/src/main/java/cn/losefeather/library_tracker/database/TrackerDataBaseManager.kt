@@ -1,6 +1,7 @@
 package cn.losefeather.library_tracker.database
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import cn.losefeather.library_tracker.entity.EventInfo
 import kotlinx.coroutines.CoroutineScope
@@ -27,11 +28,14 @@ class TrackerDataBaseManager private constructor() {
 
     fun init(context: Context) {
         if (!init) {
+            Log.e("", "init: dataBase")
             dataBase = Room.databaseBuilder(
                 context,
                 EventTrackerDataBase::class.java, "tracker_database"
             ).build()
             init = true
+            Log.e("", "init: dataBase finish")
+
         }
     }
 

@@ -2,11 +2,13 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.protobuf)
+    id("kotlin-kapt") // 添加kapt插件
+
 }
 
 android {
     namespace = "cn.losefeather.library_tracker"
-    compileSdk = 34
+    compileSdk = 35
     version = "1.0.0"
     defaultConfig {
         minSdk = 24
@@ -93,7 +95,9 @@ dependencies {
 
     //Room
     implementation(libs.androidx.room.room.runtime3)
-    annotationProcessor(libs.androidx.room.room.compiler2)
+    // annotationProcessor(libs.androidx.room.room.compiler2)
+    kapt(libs.androidx.room.room.compiler2)
+
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
 

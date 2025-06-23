@@ -63,7 +63,7 @@ class UploadEventWorker(appContext: Context, workerParams: WorkerParameters) :
                 context.packageName,
                 PackageManager.PackageInfoFlags.of(0L)
             )
-            appVersion = value.versionName
+            appVersion = value.versionName ?: ""
             value.longVersionCode.toString()
         } else {
 

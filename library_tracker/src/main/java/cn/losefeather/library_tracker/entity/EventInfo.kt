@@ -15,7 +15,7 @@ import cn.losefeather.library_tracker.entity.EVENT.EVENT_UPLOAD_STATUS
 @Entity(tableName = TABLE_EVENT_INFO)
 data class EventInfo(
     @PrimaryKey(autoGenerate = true)
-    private val uid: Int,
+    val uid: Int,
     @ColumnInfo(name = EVENT_NAME)
     val eventName: String,
     @ColumnInfo(name = EVENT_CATEGORY)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 
 class TestFragmentActivity : FragmentActivity() {
@@ -38,6 +39,9 @@ class TestActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
+        findViewById<TextView>(R.id.text).setOnClickListener {
+
+        }
     }
 
     override fun onResume() {
