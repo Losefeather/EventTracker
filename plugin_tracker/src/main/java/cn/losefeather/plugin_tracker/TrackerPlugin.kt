@@ -9,16 +9,15 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property // 导入 Gradle 的 Property 接口
 
 class TrackerPlugin : Plugin<Project> {
+    var trackFragmentEnabled = true
     override fun apply(project: Project) {
-        println("注册ui隐藏埋点插件")
-//        val trackerExtension = project.extensions.create("tracker", TrackerExtension::class.java)
-//        println("${trackerExtension.isTrackFragment}")
-
-        println("注册ui隐藏埋点插件2")
-
+        println("${project.name} 注册ui隐藏埋点插件")
+        val trackerExtension = project.extensions.create("tracker", TrackerExtension::class.java)
+        trackerExtension.trackFragmentEnabled.convention(true)
+        trackFragmentEnabled = trackerExtension.trackFragmentEnabled.get()
+        println("是否记录fragment 生命周期${trackFragmentEnabled}")
         // 获取Android组件扩展
         val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
-
         // 注册字节码插桩
         androidComponents.onVariants { variant ->
             variant.instrumentation.transformClassesWith(
@@ -26,10 +25,8 @@ class TrackerPlugin : Plugin<Project> {
                 scope = InstrumentationScope.PROJECT
             ) { params ->
                 // 可配置参数（例如排除某些包）
-                params.excludePackages.set("androidx,com.google")
-                params.isTrackFragment1.set(true)
-                println("注册ui隐藏埋点插件3")
-
+                params.excludePackages.convention("androidx,com.google")
+                params.trackFragmentEnabled.convention(trackFragmentEnabled)
             }
             // 确保资源不被混淆
             variant.instrumentation.setAsmFramesComputationMode(
@@ -42,6 +39,6 @@ class TrackerPlugin : Plugin<Project> {
 
 // 插件扩展类（定义可配置参数）
 interface TrackerExtension {
-    val isTrackFragment: Property<Boolean>
+    val trackFragmentEnabled: Property<Boolean>
     val excludePackages: Property<String>
 }

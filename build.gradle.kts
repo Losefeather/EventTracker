@@ -23,7 +23,7 @@ buildscript {
             }
 
         }
-//
+
         maven { setUrl("https://jitpack.io") }
     }
 

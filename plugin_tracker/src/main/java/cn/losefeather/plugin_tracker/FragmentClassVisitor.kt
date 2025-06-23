@@ -6,6 +6,18 @@ import org.objectweb.asm.MethodVisitor
 class FragmentClassVisitor(val apiVersion: Int, nextClassVisitor: ClassVisitor) :
     ClassVisitor(apiVersion, nextClassVisitor) {
 
+    override fun visit(
+        version: Int,
+        access: Int,
+        name: String?,
+        signature: String?,
+        superName: String?,
+        interfaces: Array<out String>?
+    ) {
+
+        println("访问了fragment是 $name")
+        super.visit(version, access, name, signature, superName, interfaces)
+    }
     override fun visitMethod(
         access: Int,
         name: String?,

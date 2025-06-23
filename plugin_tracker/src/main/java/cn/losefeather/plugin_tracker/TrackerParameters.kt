@@ -10,5 +10,5 @@ interface TrackerParameters : InstrumentationParameters {
     val excludePackages: Property<String>
 
     @get:Input
-    val isTrackFragment1: Property<Boolean>
+    val trackFragmentEnabled: Property<Boolean>
 }

@@ -35,7 +35,30 @@ class TestFragmentActivity : FragmentActivity() {
 }
 
 class TestActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_test)
+    }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }
 
 

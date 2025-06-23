@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    // id("cn.losefeather.tracker")
+    id("cn.losefeather.tracker")
 
 }
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -46,14 +46,11 @@ android {
         compose = true
     }
 
-//    tracker{
-//        isTrackFragment.set(true)
-//    }
+    tracker {
+        trackFragmentEnabled = false
+    }
 }
-//tracker {
-//    isTrackFragment.set(false) // 显式关闭 Fragment 跟踪（默认值）
-//    excludePackages.set("")    // 显式设置不排除任何包（默认值）
-//}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -72,4 +69,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(project(":library_tracker"))
 }
