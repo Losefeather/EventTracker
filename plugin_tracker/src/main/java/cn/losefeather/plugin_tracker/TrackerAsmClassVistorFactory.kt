@@ -13,6 +13,9 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
             "androidx/fragment/app/Fragment",  // AndroidX Fragment
             "android/app/Fragment"             // 原生 Fragment
         )
+        private val viewSuperClasses = setOf(
+            "android/view/View"
+        )
     }
 
     override fun isInstrumentable(classData: ClassData): Boolean {
@@ -29,6 +32,8 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
         val isTrackFragment = parameters.get().trackFragmentEnabled.get()
         if (isTrackFragment && isFragment(classContext)) {
             return FragmentClassVisitor(Opcodes.ASM9, nextClassVisitor)
+        } else if (isView(classContext)) {
+            return TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
         }
         return TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
     }
@@ -41,5 +46,10 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
         val allSuperClasses = classContext.currentClassData.superClasses
         // 使用伴生对象的静态属性
         return allSuperClasses.any { it in fragmentSuperClasses }
+    }
+
+    private fun isView(classContext: ClassContext): Boolean {
+        val allSuperClasses = classContext.currentClassData.superClasses
+        return allSuperClasses.any { it in viewSuperClasses }
     }
 }

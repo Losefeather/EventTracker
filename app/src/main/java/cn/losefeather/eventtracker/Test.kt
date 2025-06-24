@@ -40,7 +40,7 @@ class TestActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         findViewById<TextView>(R.id.text).setOnClickListener {
-
+            println("点击了")
         }
     }
 

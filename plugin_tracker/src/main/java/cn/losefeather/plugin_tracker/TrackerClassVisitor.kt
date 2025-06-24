@@ -13,7 +13,7 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
         superName: String?,
         interfaces: Array<out String>?
     ) {
-        println("visit class ")
+        println("visit class name: $name")
         super.visit(version, access, name, signature, superName, interfaces)
     }
 
@@ -28,10 +28,9 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
         val mv = super.visitMethod(access, name, descriptor, signature, exceptions)
         // 拦截View的setOnClickListener方法
         if (name == "setOnClickListener" && descriptor == "(Landroid/view/View\$OnClickListener;)V") {
+            println("拦截了onClickListener")
             return ViewOnClickMethodVisitor(mv, access, name, descriptor)
         }
         return mv
     }
-
-
 }

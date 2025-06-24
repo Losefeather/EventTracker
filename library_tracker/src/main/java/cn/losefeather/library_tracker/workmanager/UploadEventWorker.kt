@@ -41,7 +41,7 @@ class UploadEventWorker(appContext: Context, workerParams: WorkerParameters) :
             Log.e(TAG, "doRemoteWork: upload successful")
             Log.e(TAG, "doRemoteWork: start delete upload events from database")
             val number =
-                TrackerDataBaseManager.getInstance().deleteEvent(*eventList.toTypedArray()).first()
+                TrackerDataBaseManager.getInstance().deleteEvent(*eventList.toTypedArray())
             Log.e(TAG, "doRemoteWork: delete events completed")
             if (number == eventList.size) {
                 return Result.success()

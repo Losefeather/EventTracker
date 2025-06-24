@@ -34,7 +34,7 @@ class EventTrackerManager {
     }
 
     private fun initGrpcService(application: Application) {
-        TrackerGrpcService(Uri.parse(""), application)
+        TrackerGrpcService(Uri.parse("http://111.160.76.104:8893"), application)
     }
 
 

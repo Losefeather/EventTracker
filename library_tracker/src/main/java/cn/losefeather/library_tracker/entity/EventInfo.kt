@@ -13,6 +13,7 @@ import cn.losefeather.library_tracker.entity.EVENT.EVENT_TIME
 import cn.losefeather.library_tracker.entity.EVENT.EVENT_UPLOAD_STATUS
 
 @Entity(tableName = TABLE_EVENT_INFO)
+@TypeConverters(HashMapConverter::class)
 data class EventInfo(
     @PrimaryKey(autoGenerate = true)
     val uid: Int,
@@ -21,8 +22,7 @@ data class EventInfo(
     @ColumnInfo(name = EVENT_CATEGORY)
     val eventCategory: String,
     @ColumnInfo(name = EVENT_PROP)
-    @TypeConverters(HashMapConverter::class)
-    val eventProp: HashMap<String, Any>,
+    val eventProp: HashMap<String, Any> = hashMapOf(),
     @ColumnInfo(name = EVENT_TIME)
     val eventTime: Long = System.currentTimeMillis(),
     @ColumnInfo(name = EVENT_UPLOAD_STATUS)

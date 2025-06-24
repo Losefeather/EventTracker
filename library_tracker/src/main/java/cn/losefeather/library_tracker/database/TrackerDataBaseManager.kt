@@ -41,18 +41,18 @@ class TrackerDataBaseManager private constructor() {
 
     fun insertEvents(eventInfos: List<EventInfo>) {
         dbScope.launch {
-            dataBase.eventDao().insertAll(eventInfos).collect {
-                if (it.size == eventInfos.size) {
-                }
+            val result = dataBase.eventDao().insertAll(eventInfos)
+            if (eventInfos.size == result.size) {
+                Log.e("TAG", "insertEvents success ${result.size} count")
             }
         }
     }
 
-    suspend fun queryNotUploadEvent(): Flow<List<EventInfo>> {
+    fun queryNotUploadEvent(): Flow<List<EventInfo>> {
         return dataBase.eventDao().queryNotUploadEvents()
     }
 
-    suspend fun deleteEvent(vararg events: EventInfo): Flow<Int> {
+    suspend fun deleteEvent(vararg events: EventInfo): Int {
         return dataBase.eventDao().delete(*events)
     }
 
