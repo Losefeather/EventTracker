@@ -13,6 +13,34 @@ class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, de
         super.onMethodExit(opcode)
     }
 
+
+    override fun visitMethodInsn(
+        opcode: Int,
+        owner: String,
+        name: String,
+        desc: String,
+        itf: Boolean
+    ) {
+        // 检测 View.setOnClickListener 调用
+        if (owner == "android/view/View"
+            && name == "setOnClickListener"
+            && desc == "(Landroid/view/View\$OnClickListener;)V"
+        ) {
+            // 插入代理逻辑（将原始Listener替换为包装类）
+            mv.visitMethodInsn(
+                Opcodes.INVOKESTATIC,
+                "cn/losefeather/library_tracker/ViewClickProxy", // 代理类
+                "wrap", // 代理方法
+                "(Landroid/view/View\$OnClickListener;)Landroid/view/View\$OnClickListener;",
+                false
+            )
+        }
+        super.visitMethodInsn(opcode, owner, name, desc, itf)
+    }
+
+
+
+
     private fun insertTrackCode() {
         // 获取View ID
         mv.visitVarInsn(Opcodes.ALOAD, 0) // this (View对象)

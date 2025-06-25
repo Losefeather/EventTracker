@@ -3,6 +3,9 @@ package cn.losefeather.plugin_tracker
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 
+/**
+ *
+ */
 class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
     ClassVisitor(apiVersion, nextClassVisitor) {
     override fun visit(
@@ -13,7 +16,14 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
         superName: String?,
         interfaces: Array<out String>?
     ) {
-        println("visit class name: $name")
+        println("visit class name: $name  interfaces count: ${interfaces?.size}")
+        name?.apply {
+            if (this.contains("TestActivity")) {
+                interfaces?.onEach {
+                    println(it)
+                }
+            }
+        }
         super.visit(version, access, name, signature, superName, interfaces)
     }
 

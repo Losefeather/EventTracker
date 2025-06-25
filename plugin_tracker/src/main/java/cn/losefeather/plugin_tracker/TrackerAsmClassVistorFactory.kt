@@ -28,14 +28,15 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
         classContext: ClassContext,
         nextClassVisitor: ClassVisitor
     ): ClassVisitor {
-        // 移除 println 调试语句（可能干扰序列化）
         val isTrackFragment = parameters.get().trackFragmentEnabled.get()
-        if (isTrackFragment && isFragment(classContext)) {
-            return FragmentClassVisitor(Opcodes.ASM9, nextClassVisitor)
-        } else if (isView(classContext)) {
-            return TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
+        // 对所有类应用 TrackerClassVisitor，而非仅View子类
+        val baseVisitor = TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
+        // Fragment逻辑保持不变
+        return if (isTrackFragment && isFragment(classContext)) {
+            FragmentClassVisitor(Opcodes.ASM9, baseVisitor)
+        } else {
+            baseVisitor
         }
-        return TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
     }
 
     private fun String.startsWithAny(prefixes: List<String>): Boolean {

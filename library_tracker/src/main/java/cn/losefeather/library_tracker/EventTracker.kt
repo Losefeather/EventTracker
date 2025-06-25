@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.res.Configuration
 import android.util.Log
+import android.view.View
 import cn.losefeather.library_tracker.database.TrackerDataBaseManager
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_BUSINESS
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_UI
@@ -68,6 +69,18 @@ class EventTracker {
 
     }
 
+    fun wrapViewOnClick(listener: View.OnClickListener): View.OnClickListener {
+        return View.OnClickListener { v ->
+            // 执行原始点击逻辑
+            listener.onClick(v)
+            // 埋点逻辑：记录 View ID、类名、点击时间等
+            trackViewClick(v)
+        }
+    }
+
+    private fun trackViewClick(view: View) {
+
+    }
 
     fun trackUiEvent(eventName: String, eventProp: HashMap<String, Any> = hashMapOf()) {
         val eventInfo = EventInfo(
