@@ -6,12 +6,12 @@ import org.objectweb.asm.commons.AdviceAdapter
 
 class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, descriptor: String?) :
     AdviceAdapter(Opcodes.ASM9, mv, access, name, descriptor) {
-    override fun onMethodExit(opcode: Int) {
-        // 插入埋点代码
-        insertTrackCode()
-
-        super.onMethodExit(opcode)
-    }
+//    override fun onMethodExit(opcode: Int) {
+//        // 插入埋点代码
+//        insertTrackCode()
+//
+//        super.onMethodExit(opcode)
+//    }
 
 
     override fun visitMethodInsn(
@@ -21,16 +21,27 @@ class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, de
         desc: String,
         itf: Boolean
     ) {
-        // 检测 View.setOnClickListener 调用
+        // 检测 View.setOnClickListener 方法调用
         if (owner == "android/view/View"
-            && name == "setOnClickListener"
+            && name == "setOnClickListener" 
             && desc == "(Landroid/view/View\$OnClickListener;)V"
         ) {
-            // 插入代理逻辑（将原始Listener替换为包装类）
+            println("找到了埋点事件了")
+            // 替换为调用 EventTracker.wrapViewOnClick 方法
+            // 1. 获取 EventTracker 实例
             mv.visitMethodInsn(
                 Opcodes.INVOKESTATIC,
-                "cn/losefeather/library_tracker/ViewClickProxy", // 代理类
-                "wrap", // 代理方法
+                "cn/losefeather/library_tracker/EventTracker",
+                "getInstance",
+                "()Lcn/losefeather/library_tracker/EventTracker;",
+                false
+            )
+
+            // 2. 调用 wrapViewOnClick 方法包装原始点击事件
+            mv.visitMethodInsn(
+                Opcodes.INVOKEVIRTUAL,
+                "cn/losefeather/library_tracker/EventTracker",
+                "wrapViewOnClick",
                 "(Landroid/view/View\$OnClickListener;)Landroid/view/View\$OnClickListener;",
                 false
             )

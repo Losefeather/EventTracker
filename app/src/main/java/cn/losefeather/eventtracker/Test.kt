@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 
@@ -39,9 +40,12 @@ class TestActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-        findViewById<TextView>(R.id.text).setOnClickListener {
+        val view = findViewById<TextView>(R.id.text)
+        view.setOnClickListener {
             println("点击了")
         }
+        println(view.id)
+        println((view as View).accessibilityClassName)
     }
 
     override fun onResume() {

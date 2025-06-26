@@ -8,7 +8,10 @@ import android.view.View
 import cn.losefeather.library_tracker.database.TrackerDataBaseManager
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_BUSINESS
 import cn.losefeather.library_tracker.entity.CATEGORY.CATEGORY_UI
+import cn.losefeather.library_tracker.entity.EVENT.EVENT_ON_CLICK
 import cn.losefeather.library_tracker.entity.EventInfo
+import cn.losefeather.library_tracker.entity.KEY.VIEW_ID
+import cn.losefeather.library_tracker.entity.KEY.VIEW_TYPE
 
 
 class EventTracker {
@@ -79,7 +82,18 @@ class EventTracker {
     }
 
     private fun trackViewClick(view: View) {
+        val hashMap = hashMapOf<String, Any>()
+        try {
+            hashMap[VIEW_ID] = view.context.resources.getResourceEntryName(view.id)
+            hashMap[VIEW_TYPE] = view.getViewType()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        trackUiEvent(EVENT_ON_CLICK, hashMap)
+    }
 
+    private fun View.getViewType(): String {
+        return this::class.java.canonicalName
     }
 
     fun trackUiEvent(eventName: String, eventProp: HashMap<String, Any> = hashMapOf()) {

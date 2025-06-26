@@ -37,10 +37,10 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
     ): MethodVisitor {
         val mv = super.visitMethod(access, name, descriptor, signature, exceptions)
         // 拦截View的setOnClickListener方法
-        if (name == "setOnClickListener" && descriptor == "(Landroid/view/View\$OnClickListener;)V") {
-            println("拦截了onClickListener")
+//        if (name == "setOnClickListener" && descriptor == "(Landroid/view/View\$OnClickListener;)V") {
+//            println("拦截了onClickListener")
             return ViewOnClickMethodVisitor(mv, access, name, descriptor)
-        }
-        return mv
+        //}
+        //return mv
     }
 }
