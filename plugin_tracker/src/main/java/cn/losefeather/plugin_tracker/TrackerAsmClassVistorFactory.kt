@@ -30,27 +30,17 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
     ): ClassVisitor {
         val isTrackFragment = parameters.get().trackFragmentEnabled.get()
         // 对所有类应用 TrackerClassVisitor，而非仅View子类
-        val baseVisitor = TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
+        return TrackerClassVisitor(Opcodes.ASM9, nextClassVisitor)
+
         // Fragment逻辑保持不变
-        return if (isTrackFragment && isFragment(classContext)) {
-            FragmentClassVisitor(Opcodes.ASM9, baseVisitor)
-        } else {
-            baseVisitor
-        }
+//        return if (isTrackFragment && isFragment(classContext)) {
+//            FragmentClassVisitor(Opcodes.ASM9, baseVisitor)
+//        } else {
+//            baseVisitor
+//        }
     }
 
     private fun String.startsWithAny(prefixes: List<String>): Boolean {
         return prefixes.any { this.startsWith(it) }
-    }
-
-    private fun isFragment(classContext: ClassContext): Boolean {
-        val allSuperClasses = classContext.currentClassData.superClasses
-        // 使用伴生对象的静态属性
-        return allSuperClasses.any { it in fragmentSuperClasses }
-    }
-
-    private fun isView(classContext: ClassContext): Boolean {
-        val allSuperClasses = classContext.currentClassData.superClasses
-        return allSuperClasses.any { it in viewSuperClasses }
     }
 }

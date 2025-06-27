@@ -7,14 +7,16 @@ object EVENT {
     const val EVENT_TIME = "EVENT_TIME"
     const val EVENT_UPLOAD_STATUS = "EVENT_UPLOAD_STATUS"
     const val EVENT_ON_CLICK = "EVENT_ON_CLICK"
-    const val EVENT_ENTER_PAGE = "EVENT_ENTER_PAGE"
-    const val EVENT_QUIET_PAGE = "EVENT_QUIET_PAGE"
+    const val EVENT_PAGE_SHOW = "EVENT_PAGE_SHOW"
+    const val EVENT_PAGE_HIDDEN = "EVENT_PAGE_HINDDEN"
 }
 
 
 object KEY {
     const val VIEW_ID = "VIEW_ID"
     const val VIEW_TYPE = "VIEW_TYPE"
+    const val PAGE_NAME = "PAGE_NAME"
+    const val PAGE_TYPE = "PAGE_TYPE"
 }
 
 object CATEGORY {

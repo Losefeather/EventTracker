@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 
@@ -44,8 +44,10 @@ class TestActivity : Activity() {
         view.setOnClickListener {
             println("点击了")
         }
-        println(view.id)
-        println((view as View).accessibilityClassName)
+
+        findViewById<Button>(R.id.buttton).setOnClickListener {
+
+        }
     }
 
     override fun onResume() {

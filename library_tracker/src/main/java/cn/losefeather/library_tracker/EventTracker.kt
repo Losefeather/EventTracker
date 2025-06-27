@@ -17,7 +17,7 @@ import cn.losefeather.library_tracker.entity.KEY.VIEW_TYPE
 class EventTracker {
     private var isInit = false
     private val eventTrackerActivityLifecycle by lazy {
-        EventTrackerActivityLifecycle(this)
+        EventTrackerActivityLifecycle(true, true)
     }
 
     private val TAG = this::class.java.canonicalName
@@ -81,19 +81,23 @@ class EventTracker {
         }
     }
 
-    private fun trackViewClick(view: View) {
+    fun trackViewClick(id: String, type: String) {
         val hashMap = hashMapOf<String, Any>()
         try {
-            hashMap[VIEW_ID] = view.context.resources.getResourceEntryName(view.id)
-            hashMap[VIEW_TYPE] = view.getViewType()
+            hashMap[VIEW_ID] = id
+            hashMap[VIEW_TYPE] = type
         } catch (e: Exception) {
             e.printStackTrace()
         }
         trackUiEvent(EVENT_ON_CLICK, hashMap)
     }
 
+    fun trackViewClick(view: View) {
+        trackViewClick(view.context.resources.getResourceEntryName(view.id), view.getViewType())
+    }
+
     private fun View.getViewType(): String {
-        return this::class.java.canonicalName
+        return this::class.java.simpleName
     }
 
     fun trackUiEvent(eventName: String, eventProp: HashMap<String, Any> = hashMapOf()) {

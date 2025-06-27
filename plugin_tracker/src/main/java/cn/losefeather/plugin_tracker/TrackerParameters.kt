@@ -11,4 +11,10 @@ interface TrackerParameters : InstrumentationParameters {
 
     @get:Input
     val trackFragmentEnabled: Property<Boolean>
+//
+//    @get:Input
+//    val autoTrackClick: Property<Boolean>
+//
+//    @get:Input
+//    val autoTrackPage: Property<Boolean>
 }

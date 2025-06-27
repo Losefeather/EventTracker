@@ -2,6 +2,7 @@ package cn.losefeather.library_tracker
 
 import android.app.Application
 import android.net.Uri
+import android.view.View
 import cn.losefeather.library_tracker.grpc.TrackerGrpcService
 
 class EventTrackerManager {
@@ -15,11 +16,12 @@ class EventTrackerManager {
         @Volatile
         private lateinit var instance: EventTrackerManager
 
+        // 添加 @JvmStatic 注解使 Java 能识别为静态方法
+        @JvmStatic
         fun getInstance(): EventTrackerManager {
-            if (::instance.isInitialized) {
-                return instance
+            if (!::instance.isInitialized) {
+                instance = EventTrackerManager()
             }
-            instance = EventTrackerManager()
             return instance
         }
     }
@@ -34,7 +36,7 @@ class EventTrackerManager {
     }
 
     private fun initGrpcService(application: Application) {
-        TrackerGrpcService(Uri.parse("http://111.160.76.104:8893"), application)
+        TrackerGrpcService(Uri.parse("http://121.160.76.104:8893"), application)
     }
 
 
@@ -42,9 +44,28 @@ class EventTrackerManager {
         eventTracker.init(application)
     }
 
-    private fun trackEvent() {
+    fun trackUiEvent(eventName: String, eventProp: HashMap<String, Any>) {
         if (isInit) {
-            eventTracker.trackEvent()
+            eventTracker.trackUiEvent(eventName, eventProp)
         }
     }
+
+    fun wrapViewOnClick(listener: View.OnClickListener): View.OnClickListener {
+        if (isInit) {
+            return eventTracker.wrapViewOnClick(listener)
+        }
+        return listener
+    }
+
+    fun trackViewEvent(view: View) {
+        if (isInit) {
+            eventTracker.trackViewClick(view)
+        }
+    }
+
+    fun setConfig(): EventTrackerManager {
+
+        return this
+    }
+
 }

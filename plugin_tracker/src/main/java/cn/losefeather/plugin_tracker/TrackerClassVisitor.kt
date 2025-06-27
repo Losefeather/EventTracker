@@ -17,13 +17,6 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
         interfaces: Array<out String>?
     ) {
         println("visit class name: $name  interfaces count: ${interfaces?.size}")
-        name?.apply {
-            if (this.contains("TestActivity")) {
-                interfaces?.onEach {
-                    println(it)
-                }
-            }
-        }
         super.visit(version, access, name, signature, superName, interfaces)
     }
 
@@ -39,6 +32,7 @@ class TrackerClassVisitor(apiVersion: Int, nextClassVisitor: ClassVisitor) :
         // 拦截View的setOnClickListener方法
 //        if (name == "setOnClickListener" && descriptor == "(Landroid/view/View\$OnClickListener;)V") {
 //            println("拦截了onClickListener")
+        println("visitMethod $name || $descriptor || $signature")
             return ViewOnClickMethodVisitor(mv, access, name, descriptor)
         //}
         //return mv
