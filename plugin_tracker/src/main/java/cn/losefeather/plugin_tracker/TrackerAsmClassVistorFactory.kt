@@ -43,4 +43,18 @@ abstract class TrackerAsmClassVisitorFactory : AsmClassVisitorFactory<TrackerPar
     private fun String.startsWithAny(prefixes: List<String>): Boolean {
         return prefixes.any { this.startsWith(it) }
     }
+
+    private fun isView(classContext: ClassContext): Boolean {
+        // 检查当前类是否是 View 的子类
+        return classContext.currentClassData.superClasses.any { superClass ->
+            viewSuperClasses.contains(superClass)
+        }
+    }
+
+    private fun isFragment(classContext: ClassContext): Boolean {
+        // 检查当前类是否是 Fragment 的子类
+        return classContext.currentClassData.superClasses.any { superClass ->
+            fragmentSuperClasses.contains(superClass)
+        }
+    }
 }

@@ -20,9 +20,6 @@ class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, de
 //        super.onMethodExit(opcode)
 //    }
 
-    private fun isComposePage(descriptor: String) {
-
-    }
 
     override fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor {
         println("visitAnnotation $descriptor || $visible")
@@ -42,6 +39,55 @@ class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, de
         return super.visitAnnotation(descriptor, visible)
     }
 
+
+    private fun isViewClickListenerMethod(name: String?, descriptor: String?): Boolean {
+        // 检查方法名和描述符是否匹配 setOnClickListener 方法
+        return name == "setOnClickListener" && descriptor == "(Landroid/view/View\$OnClickListener;)V"
+    }
+
+    private fun isComposeFunction(descriptor: String?): Boolean {
+        // 检查方法描述符是否包含 Compose 函数的特征
+        return descriptor?.contains("Landroidx/compose/") == true
+    }
+
+
+    private fun trackViewEvent(owner: String) {
+        // 1. 获取 EventTrackerManager 实例
+        mv.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            "cn/losefeather/library_tracker/EventTrackerManager",
+            "getInstance",
+            "()Lcn/losefeather/library_tracker/EventTrackerManager;",
+            false
+        )
+
+        // 2. 将原始的 OnClickListener 参数从操作数栈加载回来
+        mv.visitInsn(Opcodes.SWAP)
+
+        // 3. 调用 EventTrackerManager 的 wrapViewOnClick 方法
+        mv.visitMethodInsn(
+            Opcodes.INVOKEVIRTUAL,
+            "cn/losefeather/library_tracker/EventTrackerManager",
+            "wrapViewOnClick",
+            "(Landroid/view/View\$OnClickListener;)Landroid/view/View\$OnClickListener;",
+            false
+        )
+
+        // 4. 调用原始的 setOnClickListener 方法，使用实际的 owner（如 TextView）
+        mv.visitMethodInsn(
+            Opcodes.INVOKEVIRTUAL,
+            owner,  // 使用实际的 owner（如 android/widget/TextView）
+            "setOnClickListener",
+            "(Landroid/view/View\$OnClickListener;)V",
+            false
+        )
+    }
+
+
+
+
+
+
     override fun visitMethodInsn(
         opcode: Int,
         owner: String,
@@ -49,45 +95,15 @@ class ViewOnClickMethodVisitor(mv: MethodVisitor, access: Int, name: String?, de
         desc: String,
         itf: Boolean
     ) {
-
         println("owner $owner name $name desc $desc")
-        // 修改条件：匹配所有View子类的setOnClickListener调用
-        if (name == "setOnClickListener" && desc == "(Landroid/view/View\$OnClickListener;)V") {
-            println("找到了埋点事件: owner=$owner")
-
-            // 1. 获取 EventTrackerManager 实例
-            mv.visitMethodInsn(
-                Opcodes.INVOKESTATIC,
-                "cn/losefeather/library_tracker/EventTrackerManager",
-                "getInstance",
-                "()Lcn/losefeather/library_tracker/EventTrackerManager;",
-                false
-            )
-
-            // 2. 将原始的 OnClickListener 参数从操作数栈加载回来
-            mv.visitInsn(Opcodes.SWAP)
-
-            // 3. 调用 EventTrackerManager 的 wrapViewOnClick 方法
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                "cn/losefeather/library_tracker/EventTrackerManager",
-                "wrapViewOnClick",
-                "(Landroid/view/View\$OnClickListener;)Landroid/view/View\$OnClickListener;",
-                false
-            )
-
-            // 4. 调用原始的 setOnClickListener 方法，使用实际的 owner（如 TextView）
-            mv.visitMethodInsn(
-                Opcodes.INVOKEVIRTUAL,
-                owner,  // 使用实际的 owner（如 android/widget/TextView）
-                "setOnClickListener",
-                "(Landroid/view/View\$OnClickListener;)V",
-                false
-            )
-
-            // 跳过原始的方法调用
-            return
+        if (isViewClickListenerMethod(name, desc)) {
+            println("拦截了setOnClickListener方法: owner=$owner, name=$name, desc=$desc")
+            trackViewEvent(owner)
         }
+
+
+
+
         super.visitMethodInsn(opcode, owner, name, desc, itf)
     }
 

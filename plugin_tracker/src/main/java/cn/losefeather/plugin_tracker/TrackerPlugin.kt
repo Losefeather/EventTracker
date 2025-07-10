@@ -11,7 +11,7 @@ import org.gradle.api.provider.Property // 导入 Gradle 的 Property 接口
 class TrackerPlugin : Plugin<Project> {
     var trackFragmentEnabled = true
     override fun apply(project: Project) {
-        println("${project.name} 注册ui隐藏埋点插件")
+        println("${project.name} 注册隐藏埋点插件")
         val trackerExtension = project.extensions.create("tracker", TrackerExtension::class.java)
         trackerExtension.trackFragmentEnabled.convention(true)
         trackFragmentEnabled = trackerExtension.trackFragmentEnabled.get()
@@ -25,7 +25,7 @@ class TrackerPlugin : Plugin<Project> {
                 scope = InstrumentationScope.PROJECT
             ) { params ->
                 // 可配置参数（例如排除某些包）
-                params.excludePackages.convention("androidx,com.google")
+                params.excludePackages.convention("androidx,com.google,R, R$")
                 params.trackFragmentEnabled.convention(trackFragmentEnabled)
             }
             // 确保资源不被混淆
