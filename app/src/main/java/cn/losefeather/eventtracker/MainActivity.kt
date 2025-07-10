@@ -1,6 +1,7 @@
 package cn.losefeather.eventtracker
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -120,11 +121,11 @@ fun SecondScreen(onNavigateBack: () -> Unit) {
 
 // 模拟页面追踪函数（实际项目中替换为真实实现）
 fun trackPageEnter(pageName: String) {
-    println("[Track] 页面进入: $pageName")
+    Log.e("Tracker", "trackPageEnter: $pageName")
 }
 
 fun trackPageLeave(pageName: String) {
-    println("[Track] 页面离开: $pageName")
+    Log.e("Tracker", "trackPageLeave: $pageName")
 }
 
 @Preview(showBackground = true)
